@@ -4,6 +4,17 @@
 #include "mcimage.h"
 #include "mccodimage.h"
 
+int getVertex(int x, int y, int size_x){
+  return x + y * size_x;
+}
+
+int getHorizontalCoordinate(int vertex, int size_x){
+  return vertex % size_x;
+}
+
+int getVerticalCoordinate(int vertex, int size_x){
+  return vertex / size_x;
+}
 
 struct graphe *initImageGraph(struct xvimage *image, 
 			      int *tab_es_i, int *tab_es_j, 
@@ -24,11 +35,17 @@ struct graphe *initImageGraph(struct xvimage *image,
   
   G = InitGraphe(n, m);
   
-  for(x_j = 0; x_j < cs; x_j++ )
-    for(x_i = 0; x_i < rs; x_i++ ){ /* for any vertex (x_i, x_j) de E */
+  for(x_j = 0; x_j < cs; x_j++ ) {
+    for(x_i = 0; x_i < rs; x_i++ ) { /* for any vertex (x_i, x_j) de E */
       for(k = 0; k < n_es; k++) { /* for any successor (y_i,y_j) according to the se */
-	y_i = x_i + tab_es_i[k];
-	y_j = x_j + tab_es_j[k];
+        y_i = x_i + tab_es_i[k];
+        y_j = x_j + tab_es_j[k];
+
+        if(y_i >= 0 && y_i < rs && y_j >= 0 && y_j < cs){ /* if the successor is in the image */
+          x = getVertex(x_i, x_j, rs);
+          y = getVertex(y_i, y_j, rs);
+          AjouteArc(G, x, y);
+        }
 	
 	/***************************************************/
 	/*                    To complete                  */
@@ -46,9 +63,9 @@ struct graphe *initImageGraph(struct xvimage *image,
 	/*      the successor map gamma (array of linked lists of */
 	/*      successors)).  */
 
-	}
-      }
-  
+	    }
+    }
+  }
   return G;
 }
 
@@ -81,17 +98,6 @@ unsigned char *dilat(unsigned char *X, struct graphe *G){
   return Y;
 }
 
-int getVertex(int x, int y, int size_x){
-  return x + y * size_x;
-}
-
-int getHorizontalCoordinate(int vertex, int size_x){
-  return vertex % size_x;
-}
-
-int getVerticalCoordinate(int vertex, int size_x){
-  return vertex / size_x;
-}
 
 int main(int argc, char ** argv){
   struct xvimage * image;
