@@ -63,7 +63,7 @@ unsigned char *dilat(unsigned char *X, struct graphe *G){
 
   Y = calloc(1, n * sizeof(unsigned char));
   if(Y == NULL){
-    fprintf(stderr, "Erreur d'allocation mémoire dans la fonction dilat\n");
+    fprintf(stderr, "Erreur d'allocation mï¿½moire dans la fonction dilat\n");
     exit(0);
   }
     
@@ -81,6 +81,17 @@ unsigned char *dilat(unsigned char *X, struct graphe *G){
   return Y;
 }
 
+int getVertex(int x, int y, int size_x){
+  return x + y * size_x;
+}
+
+int getHorizontalCoordinate(int vertex, int size_x){
+  return vertex % size_x;
+}
+
+int getVerticalCoordinate(int vertex, int size_x){
+  return vertex / size_x;
+}
 
 int main(int argc, char ** argv){
   struct xvimage * image;
