@@ -5,4 +5,4 @@ tmp=/workspaces/MorphoGraph/TP5/tmp
 
 mkdir -p $tmp
 seuil $images/cil.pgm 110 $results/$1
-rm -d
+rm -dr $tmp
