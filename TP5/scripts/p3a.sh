@@ -4,6 +4,9 @@ results=/workspaces/MorphoGraph/TP5/result_images
 tmp=/workspaces/MorphoGraph/TP5/tmp
 
 mkdir -p $tmp
+
+# removing noise by applying opening followed by closing
 opening $images/s.pgm $masks/2d_north.pgm $tmp/tmp1.pgm
 closing $tmp/tmp1.pgm $masks/2d_north.pgm $results/$1
+
 rm -dr $tmp
